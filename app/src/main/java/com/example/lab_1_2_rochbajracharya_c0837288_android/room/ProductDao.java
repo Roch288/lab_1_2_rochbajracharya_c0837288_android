@@ -15,4 +15,7 @@ public interface ProductDao {
     @Query("SELECT * FROM product_table ORDER BY productName")
     List<Product> getAllProduct();
 
+    @Query("SELECT * FROM product_table WHERE id IN (:id)")
+    Product getProductById(int id);
+
 }

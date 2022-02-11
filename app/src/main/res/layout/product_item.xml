@@ -2,25 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:id="@+id/product"
+    android:padding="15dp">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_marginBottom="5dp"
+        android:text="John Smith"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/product_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:text="John Smith"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="14sp" />
+    <TextView
+        android:id="@+id/product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$20.92"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="14sp" />
 
-    </LinearLayout>
+    <!--    </LinearLayout>-->
 
 </LinearLayout>

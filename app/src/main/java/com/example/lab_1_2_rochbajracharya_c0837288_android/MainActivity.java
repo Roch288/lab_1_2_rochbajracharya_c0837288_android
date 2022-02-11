@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         productRoomDb = ProductRoomDb.getInstance(this);
         loadProducts();
         addProducts();
+
+        getSupportActionBar().setTitle("Products");
     }
 
     // load all products from database
