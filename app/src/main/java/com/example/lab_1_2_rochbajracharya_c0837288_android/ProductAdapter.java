@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lab_1_2_rochbajracharya_c0837288_android.ProductDetailActivity;
@@ -71,6 +72,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     @Override
     public int getItemCount() {
         return productList.size();
+    }
+
+    public void removeItem(int position) {
+        ProductRoomDb.getInstance(context).productDao().delete(productList.get(position));
+        productList.remove(position);
+        notifyItemRemoved(position);
     }
 
 }

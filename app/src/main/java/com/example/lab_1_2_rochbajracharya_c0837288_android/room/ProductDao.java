@@ -22,4 +22,7 @@ public interface ProductDao {
     @Query("SELECT * FROM product_table WHERE (productName LIKE '%' || :name || '%') OR (productDescription LIKE '%' || :name || '%')")
     List<Product> getProductsByName(String name);
 
+    @Delete
+    void delete(Product product);
+
 }

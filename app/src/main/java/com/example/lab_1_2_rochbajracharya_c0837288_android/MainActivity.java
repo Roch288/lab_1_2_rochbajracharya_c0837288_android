@@ -1,7 +1,9 @@
 package com.example.lab_1_2_rochbajracharya_c0837288_android;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -87,8 +89,27 @@ public class MainActivity extends AppCompatActivity {
         addProducts();
         svProduct.setQuery("", false);
         totalProduct();
+        enableSwipeToDeleteAndUndo();
     }
 
+    private void enableSwipeToDeleteAndUndo() {
+        ItemTouchHelper.SimpleCallback itemTouchHelperSC = new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition();
+                productAdapter.removeItem(position);
+            }
+        };
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(itemTouchHelperSC);
+        itemTouchhelper.attachToRecyclerView(productListView);
+    }
 
     // function to add 10 products initially
     private void  addProducts(){
