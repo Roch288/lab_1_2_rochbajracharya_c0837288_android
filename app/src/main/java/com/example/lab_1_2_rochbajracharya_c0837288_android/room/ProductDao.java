@@ -1,6 +1,7 @@
 package com.example.lab_1_2_rochbajracharya_c0837288_android.room;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -17,5 +18,8 @@ public interface ProductDao {
 
     @Query("SELECT * FROM product_table WHERE id IN (:id)")
     Product getProductById(int id);
+
+    @Query("SELECT * FROM product_table WHERE (productName LIKE '%' || :name || '%') OR (productDescription LIKE '%' || :name || '%')")
+    List<Product> getProductsByName(String name);
 
 }

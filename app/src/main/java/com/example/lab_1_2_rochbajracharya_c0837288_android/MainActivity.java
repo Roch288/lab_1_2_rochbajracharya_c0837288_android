@@ -1,12 +1,17 @@
 package com.example.lab_1_2_rochbajracharya_c0837288_android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.lab_1_2_rochbajracharya_c0837288_android.room.Product;
 import com.example.lab_1_2_rochbajracharya_c0837288_android.room.ProductRoomDb;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +20,13 @@ public class MainActivity extends AppCompatActivity {
 
     private ProductRoomDb productRoomDb;
 
+    FloatingActionButton btnAdd;
+
     List<Product> productList;
-    ListView productListView;
+    RecyclerView productListView;
+    ProductAdapter productAdapter;
+
+    SearchView svProduct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,18 +37,56 @@ public class MainActivity extends AppCompatActivity {
         productList = new ArrayList<>();
 
         productRoomDb = ProductRoomDb.getInstance(this);
-        loadProducts();
-        addProducts();
+        btnAdd = findViewById(R.id.float_add);
+        svProduct = findViewById(R.id.search_product);
 
         getSupportActionBar().setTitle("Products");
+
+        searchEvent();
+    }
+
+    void searchEvent() {
+        svProduct.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                productList.clear();
+                if (newText.contentEquals("")) {
+                    productList.addAll(ProductRoomDb.getInstance(getApplicationContext()).productDao().getAllProduct());
+                } else {
+                    productList.addAll(ProductRoomDb.getInstance(getApplicationContext()).productDao().getProductsByName(newText));
+                }
+                productAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+    }
+
+    void totalProduct() {
+        TextView tvTotal = findViewById(R.id.text_total);
+        tvTotal.setText("Total " + productRoomDb.productDao().getAllProduct().size());
     }
 
     // load all products from database
     private void loadProducts() {
         productList = productRoomDb.productDao().getAllProduct();
 
-        ProductAdapter productAdapter = new ProductAdapter(this, R.layout.product_item, productList);
+        productAdapter = new ProductAdapter(this, R.layout.product_item, productList);
         productListView.setAdapter(productAdapter);
+        productListView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadProducts();
+        addProducts();
+        svProduct.setQuery("", false);
+        totalProduct();
     }
 
 

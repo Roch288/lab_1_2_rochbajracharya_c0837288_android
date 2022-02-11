@@ -5,19 +5,20 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.lab_1_2_rochbajracharya_c0837288_android.ProductDetailActivity;
+import com.example.lab_1_2_rochbajracharya_c0837288_android.R;
 import com.example.lab_1_2_rochbajracharya_c0837288_android.room.Product;
 import com.example.lab_1_2_rochbajracharya_c0837288_android.room.ProductRoomDb;
 
 import java.util.List;
 
-public class ProductAdapter extends ArrayAdapter {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder> {
 
     Context context;
     int layoutRes;
@@ -25,7 +26,6 @@ public class ProductAdapter extends ArrayAdapter {
     ProductRoomDb productRoomDb;
 
     public ProductAdapter(@NonNull Context context, int resource, List<Product> productList) {
-        super(context, resource, productList);
         this.productList = productList;
         this.context = context;
         this.layoutRes = resource;
@@ -34,36 +34,42 @@ public class ProductAdapter extends ArrayAdapter {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View v = convertView;
-        if (v == null) v = inflater.inflate(layoutRes, null);
-        TextView productName = v.findViewById(R.id.product_name);
-        TextView productPrice = v.findViewById(R.id.product_price);
-
-        LinearLayout item = v.findViewById(R.id.product);
-
-
-        final Product product = productList.get(position);
-        productName.setText(product.getProductName());
-        productPrice.setText("$" + String.valueOf(product.getProductPrice()));
-
-        item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
-                intent.putExtra("productName",product.getProductName());
-                intent.putExtra("id",product.getId());
-                v.getContext().startActivity(intent);
-            }
-        });
-
-        return v;
+    public ProductAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.product_item, parent, false);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public int getCount() {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        final Product product = productList.get(position);
+        holder.productName.setText(product.getProductName());
+        holder.productPrice.setText("$" + String.valueOf(product.getProductPrice()));
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), ProductDetailActivity.class);
+            intent.putExtra("productName", product.getProductName());
+            intent.putExtra("id", product.getId());
+            view.getContext().startActivity(intent);
+        });
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView productName;
+        TextView productPrice;
+        LinearLayout item;
+
+        public MyViewHolder(View v) {
+            super(v);
+
+            productName = v.findViewById(R.id.product_name);
+            productPrice = v.findViewById(R.id.product_price);
+            item = v.findViewById(R.id.product);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
         return productList.size();
     }
 
