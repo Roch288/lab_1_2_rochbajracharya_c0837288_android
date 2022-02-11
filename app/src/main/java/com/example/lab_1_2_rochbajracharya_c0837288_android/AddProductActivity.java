@@ -39,6 +39,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
         // showing same layout for add and edit
         setContentView(R.layout.activity_product_detail);
 
+        // Setting title in status bar
         getSupportActionBar().setTitle("Add New Product");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

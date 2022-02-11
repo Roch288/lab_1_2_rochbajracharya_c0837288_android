@@ -66,8 +66,8 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:text="Select Location"
+            android:textColor="@color/black"
             android:padding="5dp"
-            android:textColor="@android:color/holo_green_dark"
             android:textSize="18sp" />
 
         <fragment
