@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.lab_1_2_rochbajracharya_c0837288_android.room.Product;
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Products");
 
+        btnAdd.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), AddProductActivity.class)));
         searchEvent();
     }
 

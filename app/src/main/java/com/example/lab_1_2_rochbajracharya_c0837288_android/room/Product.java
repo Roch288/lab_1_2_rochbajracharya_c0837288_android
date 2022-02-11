@@ -36,6 +36,12 @@ public class Product {
         this.longitude = longitude;
     }
 
+    // to set dafault values if parameters are not set
+    public Product() {
+        latitude = -9.92497;
+        longitude = -147.94071;
+    }
+
     public int getId() {
         return id;
     }
